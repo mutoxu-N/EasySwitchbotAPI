@@ -4,6 +4,9 @@ import time
 import base64
 import uuid
 import requests
+from typing import Any, List
+
+from switchbot_api.devices import *
 
 
 class SwitchbotAPI:
@@ -34,3 +37,27 @@ class SwitchbotAPI:
             f"https://api.switch-bot.com/v1.1/{path}", headers=headers)
 
         return res.json()
+
+    @property
+    def devices(self) -> List[SwitchbotDevice]:
+        ret = []
+
+        json = self.get("devices")
+
+        if json["statusCode"] != 100:
+            print(f"Connection failed! (Code: {int(json['statusCode'])})")
+            return
+
+        devices = json["body"]["deviceList"]
+
+        for device in devices:
+            # detect the device type
+            if device["deviceType"] == "Plug Mini (JP)":
+                ret.append(PlugMiniJP(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+
+        return tuple(ret)
