@@ -10,11 +10,25 @@ from switchbot_api.devices import *
 
 
 class SwitchbotAPI:
+    """The class which accesses API.
+    """
+
     def __init__(self, token: str, secret: str) -> None:
+        """the constructor for SwitchbotAPI
+
+        Args:
+            token (str): access token (getting from mobile app)
+            secret (str): secret key (getting from mobile app)
+        """
         self._token: str = token
         self._secret: bytes = bytes(secret, "utf-8")
 
-    def get(self, path: str) -> dict:
+    def __create_headers(self) -> dict:
+        """creating the header for authorization.
+
+        Returns:
+            dict: headers
+        """
         time_ = str(int(round(time.time()*1000)))
         nonce = str(uuid.uuid4())
 
@@ -25,7 +39,7 @@ class SwitchbotAPI:
                 digestmod=hashlib.sha256).digest()
         )
 
-        headers = {
+        return {
             "Authorization": self._token,
             "sign": sign,
             "t": time_,
@@ -33,10 +47,45 @@ class SwitchbotAPI:
             "Content-Type": "application/json; charset=utf-8"
         }
 
+    def get(self, path: str) -> dict:
+        """create GET request to API.
+            * Access to the \"https://api.switch-bot.com/v1.1/{path}\" and return a response.
+
+        Args:
+            path (str): segment of URL
+
+        Returns:
+            dict: response of GET
+        """
+        headers = self.__create_headers()
         res = requests.get(
             f"https://api.switch-bot.com/v1.1/{path}", headers=headers)
 
         return res.json()
+
+    def run(self, device_id: str, command: dict) -> dict:
+        """create POST request to operate your device
+
+        Args:
+            device_id (str):the id of your device
+            command (dict): the parameter of operation
+
+        Returns:
+            dict: response of POST
+        """
+        headers = self.__create_headers()
+        res = requests.post(
+            f"https://api.switch-bot.com/v1.1/{device_id}/commands", headers=headers, data=command)
+
+        return res.json()
+
+    def status(self, device: SwitchbotDevice):
+        res = self.get(f"devices/{device.device_id}/status")
+
+        if res["statusCode"] != 100:
+            print(f"Connection failed! (Code: {int(res['statusCode'])})")
+            return None
+        return res["body"]
 
     @property
     def devices(self) -> List[SwitchbotDevice]:
