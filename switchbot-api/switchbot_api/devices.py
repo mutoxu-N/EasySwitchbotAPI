@@ -1,0 +1,3 @@
+
+class SwitchbotDevice:
+    pass
