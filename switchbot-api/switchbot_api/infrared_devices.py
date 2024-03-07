@@ -170,4 +170,16 @@ class DVDInfrared(InfraredDevice):
 
 
 class SpeakerInfrared(DVDInfrared):
-    pass
+    def command_volume_increase(self) -> str:
+        return json.dumps({
+            "command": "volumeAdd",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_volume_decrease(self) -> str:
+        return json.dumps({
+            "command": "volumeSub",
+            "commandType": "command",
+            "parameter": "default",
+        })
