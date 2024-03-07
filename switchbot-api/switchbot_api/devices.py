@@ -1,3 +1,5 @@
+import json
+
 
 class SwitchbotDevice:
     """parent class of switchbot devices
@@ -52,41 +54,38 @@ class PlugMiniJP(SwitchbotDevice):
             hub_device_id: str) -> None:
         super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
 
-    def command_turn_on() -> dict:
+    def command_turn_on(self) -> str:
         """generate the command to turn on the Plug Mini (JP)
 
         Returns:
             dict: command for turning on
         """
-        return {
-            "deviceType": "Plug Mini (JP)",
+        return json.dumps({
+            "command": "turnOn",
             "commandType": "command",
-            "Command": "turnOn",
-            "command parameter": "default",
-        }
+            "parameter": "default",
+        })
 
-    def command_turn_off() -> dict:
+    def command_turn_off(self) -> str:
         """generate the command to turn off the Plug Mini (JP)
 
         Returns:
             dict: command for turning off
         """
-        return {
-            "deviceType": "Plug Mini (JP)",
+        return json.dumps({
+            "command": "turnOff",
             "commandType": "command",
-            "Command": "turnOff",
-            "command parameter": "default",
-        }
+            "parameter": "default",
+        })
 
-    def command_toggle() -> dict:
+    def command_toggle(self) -> str:
         """generate the command to toggle the Plug Mini (JP)
 
         Returns:
             dict: command for toggling
         """
-        return {
-            "deviceType": "Plug Mini (JP)",
+        return json.dumps({
+            "command": "toggle",
             "commandType": "command",
-            "Command": "toggle",
-            "command parameter": "default",
-        }
+            "parameter": "default",
+        })

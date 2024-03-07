@@ -8,6 +8,8 @@ from typing import Any, List
 
 from switchbot_api.devices import *
 
+ROOT_URL = "https://api.switch-bot.com"
+
 
 class SwitchbotAPI:
     """The class which accesses API.
@@ -49,7 +51,7 @@ class SwitchbotAPI:
 
     def get(self, path: str) -> dict:
         """create GET request to API.
-            * Access to the \"https://api.switch-bot.com/v1.1/{path}\" and return a response.
+            * Access to the \"{ROOT_URL}/v1.1/{path}\" and return a response.
 
         Args:
             path (str): segment of URL
@@ -59,30 +61,28 @@ class SwitchbotAPI:
         """
         headers = self.__create_headers()
         res = requests.get(
-            f"https://api.switch-bot.com/v1.1/{path}", headers=headers)
+            f"{ROOT_URL}/v1.1/{path}", headers=headers)
 
         return res.json()
 
-    def run(self, device_id: str, command: dict) -> dict:
+    def run(self, device_id: str, command: str) -> dict:
         """create POST request to operate your device
 
         Args:
             device_id (str):the id of your device
-            command (dict): the parameter of operation
+            command (str): the parameter json of operation
 
         Returns:
             dict: response of POST
         """
         headers = self.__create_headers()
         res = requests.post(
-            f"https://api.switch-bot.com/v1.1/{device_id}/commands", headers=headers, data=command)
-
+            f"{ROOT_URL}/v1.1/devices/{device_id}/commands", headers=headers, data=command)
         return res.json()
 
     def status(self, device: SwitchbotDevice):
         res = self.get(f"devices/{device.device_id}/status")
-
-        if res["statusCode"] != 100:
+        if not "statusCode" in res.keys() and res["statusCode"] != 100:
             print(f"Connection failed! (Code: {int(res['statusCode'])})")
             return None
         return res["body"]
@@ -93,7 +93,7 @@ class SwitchbotAPI:
 
         json = self.get("devices")
 
-        if json["statusCode"] != 100:
+        if not "statusCode" in json.keys() and json["statusCode"] != 100:
             print(f"Connection failed! (Code: {int(json['statusCode'])})")
             return
 
