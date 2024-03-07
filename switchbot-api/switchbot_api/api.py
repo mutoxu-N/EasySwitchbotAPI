@@ -373,6 +373,18 @@ class SwitchbotAPI:
                     device_name=device["deviceName"],
                     hub_device_id=device["hubDeviceId"]
                 ))
+            elif device["remoteType"] == "DVD":
+                ret.append(DVDInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    hub_device_id=device["hubDeviceId"]
+                ))
+            elif device["remoteType"] == "Speaker":
+                ret.append(SpeakerInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    hub_device_id=device["hubDeviceId"]
+                ))
             else:
                 ret.append(OtherInfrared(
                     device_id=device["deviceId"],

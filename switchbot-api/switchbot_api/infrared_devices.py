@@ -109,3 +109,65 @@ class StreamerInfrared(TVInfrared):
 
 class SetTopBoxInfrared(TVInfrared):
     pass
+
+
+class DVDInfrared(InfraredDevice):
+    def command_set_mute() -> str:
+        return json.dumps({
+            "command": "setMute",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_fast_forward() -> str:
+        return json.dumps({
+            "command": "FastForward",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_rewind() -> str:
+        return json.dumps({
+            "command": "Rewind",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_next() -> str:
+        return json.dumps({
+            "command": "Next",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_previous() -> str:
+        return json.dumps({
+            "command": "Previous",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_pause() -> str:
+        return json.dumps({
+            "command": "Pause",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_play() -> str:
+        return json.dumps({
+            "command": "Play",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_stop() -> str:
+        return json.dumps({
+            "command": "Stop",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+
+class SpeakerInfrared(DVDInfrared):
+    pass
