@@ -300,6 +300,11 @@ class MotionSensor(SwitchbotDevice):
 class ContactSensor(SwitchbotDevice):
     pass
 
+class CeilingLight(SwitchbotDevice):
+    pass
+
+class CeilingLightPro(CeilingLight):
+    pass
 
 class PlugMiniUS(SwitchbotDevice):
     def command_turn_on(self) -> str:
