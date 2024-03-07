@@ -12,8 +12,11 @@ class Device:
         self._device_name = device_name
         self._hub_device_id = hub_device_id
 
-    def __str__(
-        self) -> str: return f"{self.__class__.__name__}(id: {self._device_id}, name: {self._device_name})"
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(id: {self._device_id}, name: {self._device_name})"
+
+    def __repr__(self) -> str:
+        return str(self)
 
     @property
     def device_id(self) -> str: return self._device_id
