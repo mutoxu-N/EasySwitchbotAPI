@@ -71,10 +71,10 @@ class SwitchbotAPI:
         """create POST request to operate your device
 
         Args:
-            command (Command): (device_id, the parameter json of operation)
+            command (Command): command generated from \"command_***()\" function
 
         Returns:
-            dict: response of POST
+            dict: json response of POST
         """
         headers = self.__create_headers()
         res = requests.post(
@@ -89,7 +89,7 @@ class SwitchbotAPI:
         return res["body"]
 
     @property
-    def devices(self) -> List[SwitchbotDevice]:
+    def devices(self) -> List[Device]:
         ret = []
 
         json = self.get("devices")
@@ -405,3 +405,23 @@ class SwitchbotAPI:
                     hub_device_id=device["hubDeviceId"]))
 
         return tuple(ret)
+
+    def get_devices(self, device_ids: List[str]) -> dict:
+        """return device list from device id list
+        If the devices was not founded, it returns None.
+
+        * returns (dict)
+          Key means device id. Value means Device instance.
+        """
+        # initialize
+        ret = {}
+        for id in device_ids:
+            ret[id] = None
+
+        # search all devices
+        devices = self.devices
+        for device in devices:
+            if device.device_id in device_ids:
+                ret[device.device_id] = device
+
+        return ret

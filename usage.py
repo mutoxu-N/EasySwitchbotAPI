@@ -1,6 +1,6 @@
 from pprint import pprint
-from switchbot_api.api import SwitchbotAPI
-from switchbot_api.devices import *
+from easy_switchbot.api import SwitchbotAPI
+from easy_switchbot.devices import *
 import time
 
 sAPI = SwitchbotAPI(
@@ -8,17 +8,22 @@ sAPI = SwitchbotAPI(
     secret=""
 )
 
-devices = sAPI.devices
-smart_plug: PlugMiniJP = devices[0]
+all_devices = sAPI.devices
 
-print("target:", smart_plug)
+print("All devices")
+pprint(all_devices)
+
+devices = sAPI.get_devices(["X00X0000000X"])
+smart_plug: PlugMiniJP = devices["X00X0000000X"]
+
+print("Status:", smart_plug)
 pprint(sAPI.status(smart_plug))
 
 
-print("turn on")
+print("Turn on")
 sAPI.run(smart_plug.command_turn_on())
 
 time.sleep(3)
 
-print("turn off")
+print("Turn off")
 sAPI.run(smart_plug.command_turn_off())
