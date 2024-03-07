@@ -6,6 +6,20 @@ class InfraredDevice(Device):
     """parent class of infrared devices
     """
 
+    def command_turn_on(self) -> str:
+        return json.dumps({
+            "command": "turnOn",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_turn_off(self) -> str:
+        return json.dumps({
+            "command": "turnOff",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
 
 class OtherInfrared(InfraredDevice):
     def __init__(
@@ -27,6 +41,17 @@ class OtherInfrared(InfraredDevice):
 
     @property
     def remote_type(self) -> str: return self._remote_type
+
+    def command_run(self, command: str) -> str:
+        """
+        * command
+        user-defined button name
+        """
+        return json.dumps({
+            "command": command,
+            "commandType": "customize",
+            "parameter": "default",
+        })
 
 
 class AirConditionerInfrared(InfraredDevice):
