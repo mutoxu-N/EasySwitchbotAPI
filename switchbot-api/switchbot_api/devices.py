@@ -289,6 +289,18 @@ class KeypadTouch(Keypad):
     pass
 
 
+class Remote(SwitchbotDevice):
+    pass
+
+
+class MotionSensor(SwitchbotDevice):
+    pass
+
+
+class ContactSensor(SwitchbotDevice):
+    pass
+
+
 class PlugMiniUS(SwitchbotDevice):
     def command_turn_on(self) -> str:
         return json.dumps({

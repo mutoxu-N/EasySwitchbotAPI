@@ -208,6 +208,27 @@ class SwitchbotAPI:
                     lock_device_id=device["lockDeviceId"],
                     key_list=device["keyList"],
                 ))
+            elif device["deviceType"] == "Remote":
+                ret.append(Remote(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Motion Sensor":
+                ret.append(MotionSensor(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Contact Sensor":
+                ret.append(ContactSensor(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
             elif device["deviceType"] == "Plug Mini (US)":
                 ret.append(PlugMiniUS(
                     device_id=device["deviceId"],
