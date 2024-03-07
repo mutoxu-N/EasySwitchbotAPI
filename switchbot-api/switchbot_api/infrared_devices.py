@@ -183,3 +183,40 @@ class SpeakerInfrared(DVDInfrared):
             "commandType": "command",
             "parameter": "default",
         })
+
+
+class FanInfrared(InfraredDevice):
+    def command_swing() -> str:
+        return json.dumps({
+            "command": "swing",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_timer() -> str:
+        return json.dumps({
+            "command": "timer",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_set_speed_low() -> str:
+        return json.dumps({
+            "command": "lowSpeed",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_set_speed_middle() -> str:
+        return json.dumps({
+            "command": "middleSpeed",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_set_speed_high() -> str:
+        return json.dumps({
+            "command": "highSpeed",
+            "commandType": "command",
+            "parameter": "default",
+        })
