@@ -266,5 +266,33 @@ class SwitchbotAPI:
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
+            elif device["deviceType"] == "Strip Light":
+                ret.append(StripLight(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Color Bulb":
+                ret.append(ColorBulb(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Robot Vacuum Cleaner S1":
+                ret.append(RobotVacuumCleanerS1(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Robot Vacuum Cleaner S1 Plus":
+                ret.append(RobotVacuumCleanerS1Plus(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
 
         return tuple(ret)

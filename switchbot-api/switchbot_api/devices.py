@@ -335,5 +335,100 @@ class PlugMiniUS(Plug):
 
 
 class PlugMiniJP(PlugMiniUS):
-    def __init__(self, device_id: str, device_name: str, enable_cloud_service: bool, hub_device_id: str) -> None:
-        super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
+    pass
+
+
+class StripLight(SwitchbotDevice):
+    def command_turn_on(self) -> str:
+        return json.dumps({
+            "command": "turnOn",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_turn_off(self) -> str:
+        return json.dumps({
+            "command": "turnOff",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_toggle(self) -> str:
+        return json.dumps({
+            "command": "toggle",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_set_brightness(self, value: int) -> str:
+        """
+        * value 0~100
+        """
+        return json.dumps({
+            "command": "setBrightness",
+            "commandType": "command",
+            "parameter": value,
+        })
+
+    def command_set_color(self, r: int, g: int, b: int) -> str:
+        """
+        * r/g/b 0~255
+        """
+        return json.dumps({
+            "command": "setColor",
+            "commandType": "command",
+            "parameter": f"{r}:{g}:{b}",
+        })
+
+
+class ColorBulb(StripLight):
+    def command_set_color_temperature(self, value: int) -> str:
+        """
+        * value 2700~6500
+        """
+        return json.dumps({
+            "command": "setColorTemperature",
+            "commandType": "command",
+            "parameter": value,
+        })
+
+
+class RobotVacuumCleanerS1(SwitchbotDevice):
+    def command_start(self) -> str:
+        return json.dumps({
+            "command": "start",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_stop(self) -> str:
+        return json.dumps({
+            "command": "stop",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_dock(self) -> str:
+        return json.dumps({
+            "command": "dock",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_pow_level(self, level: int) -> str:
+        """
+        * level
+        0: quiet
+        1: standard
+        2: strong
+        3: max
+        """
+        return json.dumps({
+            "command": "PowLevel",
+            "commandType": "command",
+            "parameter": level,
+        })
+
+
+class RobotVacuumCleanerS1Plus(RobotVacuumCleanerS1):
+    pass
