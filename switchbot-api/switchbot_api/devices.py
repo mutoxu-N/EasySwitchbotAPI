@@ -71,20 +71,20 @@ class Curtain(SwitchbotDevice):
             device_name: str,
             enable_cloud_service: bool,
             hub_device_id: str,
-            curtain_device_ids: str,
+            curtain_device_ids: list,
             calibrate: bool,
             group: bool,
             master: bool,
             openDirection: str) -> None:
         super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
-        self._curtain_device_ids = curtain_device_ids
+        self._curtain_device_ids = tuple(curtain_device_ids)
         self._calibrate = calibrate
         self._group = group
         self._master = master
         self._openDirection = openDirection
 
     @property
-    def curtain_device_ids(self) -> str: return self._curtain_device_ids
+    def curtain_device_ids(self) -> tuple: return self._curtain_device_ids
 
     @property
     def calibrate(self) -> bool: return self._calibrate
