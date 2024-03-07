@@ -432,3 +432,34 @@ class RobotVacuumCleanerS1(SwitchbotDevice):
 
 class RobotVacuumCleanerS1Plus(RobotVacuumCleanerS1):
     pass
+
+
+class Humidifier(SwitchbotDevice):
+    def command_turn_on(self) -> str:
+        return json.dumps({
+            "command": "turnOn",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_turn_off(self) -> str:
+        return json.dumps({
+            "command": "turnOff",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_set_mode(self, mode: str) -> str:
+        """
+        * mode
+        auto: Auto Mode
+        101: set atomization efficiency to 34%
+        102: set atomization efficiency to 67%
+        103: set atomization efficiency to 100%
+        0~100: set atomization efficiency
+        """
+        return json.dumps({
+            "command": "setMode",
+            "commandType": "command",
+            "parameter": mode,
+        })
