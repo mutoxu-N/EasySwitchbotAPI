@@ -302,7 +302,56 @@ class ContactSensor(SwitchbotDevice):
 
 
 class CeilingLight(SwitchbotDevice):
-    pass
+    def command_turn_on(self) -> str:
+        return json.dumps({
+            "command": "turnOn",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_turn_off(self) -> str:
+        return json.dumps({
+            "command": "turnOff",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_toggle(self) -> str:
+        return json.dumps({
+            "command": "toggle",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_set_brightness(self, value: int) -> str:
+        """
+        * value 0~100
+        """
+        return json.dumps({
+            "command": "setBrightness",
+            "commandType": "command",
+            "parameter": value,
+        })
+
+    def command_set_color(self, r: int, g: int, b: int) -> str:
+        """
+        * r/g/b 0~255
+        """
+        return json.dumps({
+            "command": "setColor",
+            "commandType": "command",
+            "parameter": f"{r}:{g}:{b}",
+        })
+
+    def command_set_color_temperature(self, value: int) -> str:
+        """
+        * value 2700~6500
+        """
+        return json.dumps({
+            "command": "setColorTemperature",
+            "commandType": "command",
+            "parameter": value,
+        })
 
 
 class CeilingLightPro(CeilingLight):
