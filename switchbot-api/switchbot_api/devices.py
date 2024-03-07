@@ -300,13 +300,16 @@ class MotionSensor(SwitchbotDevice):
 class ContactSensor(SwitchbotDevice):
     pass
 
+
 class CeilingLight(SwitchbotDevice):
     pass
+
 
 class CeilingLightPro(CeilingLight):
     pass
 
-class PlugMiniUS(SwitchbotDevice):
+
+class Plug(SwitchbotDevice):
     def command_turn_on(self) -> str:
         return json.dumps({
             "command": "turnOn",
@@ -321,6 +324,8 @@ class PlugMiniUS(SwitchbotDevice):
             "parameter": "default",
         })
 
+
+class PlugMiniUS(Plug):
     def command_toggle(self) -> str:
         return json.dumps({
             "command": "toggle",

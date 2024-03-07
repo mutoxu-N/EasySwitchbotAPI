@@ -243,6 +243,13 @@ class SwitchbotAPI:
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
+            elif device["deviceType"] == "Plug":
+                ret.append(Plug(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
             elif device["deviceType"] == "Plug Mini (US)":
                 ret.append(PlugMiniUS(
                     device_id=device["deviceId"],
