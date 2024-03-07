@@ -355,6 +355,24 @@ class SwitchbotAPI:
                     device_name=device["deviceName"],
                     hub_device_id=device["hubDeviceId"]
                 ))
+            elif device["remoteType"] == "TV":
+                ret.append(TVInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    hub_device_id=device["hubDeviceId"]
+                ))
+            elif device["remoteType"] == "IPTV/Streamer":
+                ret.append(StreamerInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    hub_device_id=device["hubDeviceId"]
+                ))
+            elif device["remoteType"] == "Set Top Box":
+                ret.append(SetTopBoxInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    hub_device_id=device["hubDeviceId"]
+                ))
             else:
                 ret.append(OtherInfrared(
                     device_id=device["deviceId"],

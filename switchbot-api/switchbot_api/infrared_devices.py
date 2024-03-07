@@ -64,3 +64,48 @@ class AirConditionerInfrared(InfraredDevice):
             "commandType": "command",
             "parameter": f"{temp},{mode},{fan_speed},{power_state}",
         })
+
+
+class TVInfrared(InfraredDevice):
+    def command_set_channel(self, channel: int) -> str:
+        return json.dumps({
+            "command": "SetChannel",
+            "commandType": "command",
+            "parameter": channel,
+        })
+
+    def command_volume_increase(self) -> str:
+        return json.dumps({
+            "command": "volumeAdd",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_volume_decrease(self) -> str:
+        return json.dumps({
+            "command": "volumeSub",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_channel_increase(self) -> str:
+        return json.dumps({
+            "command": "channelAdd",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_channel_increase(self) -> str:
+        return json.dumps({
+            "command": "channelSub",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+
+class StreamerInfrared(TVInfrared):
+    pass
+
+
+class SetTopBoxInfrared(TVInfrared):
+    pass
