@@ -391,6 +391,12 @@ class SwitchbotAPI:
                     device_name=device["deviceName"],
                     hub_device_id=device["hubDeviceId"]
                 ))
+            elif device["remoteType"] == "Light":
+                ret.append(LightInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    hub_device_id=device["hubDeviceId"]
+                ))
             else:
                 ret.append(OtherInfrared(
                     device_id=device["deviceId"],

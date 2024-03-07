@@ -220,3 +220,19 @@ class FanInfrared(InfraredDevice):
             "commandType": "command",
             "parameter": "default",
         })
+
+
+class LightInfrared(InfraredDevice):
+    def command_increase_brightness() -> str:
+        return json.dumps({
+            "command": "brightnessUp",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_decrease_brightness() -> str:
+        return json.dumps({
+            "command": "brightnessDown",
+            "commandType": "command",
+            "parameter": "default",
+        })
