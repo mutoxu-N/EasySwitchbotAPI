@@ -161,7 +161,7 @@ class Curtain3(Curtain):
                          curtain_device_ids, calibrate, group, master, openDirection)
 
 
-class PlugMiniJP(SwitchbotDevice):
+class PlugMiniUS(SwitchbotDevice):
     def __init__(
             self,
             device_id: str,
@@ -190,3 +190,8 @@ class PlugMiniJP(SwitchbotDevice):
             "commandType": "command",
             "parameter": "default",
         })
+
+
+class PlugMiniJP(PlugMiniUS):
+    def __init__(self, device_id: str, device_name: str, enable_cloud_service: bool, hub_device_id: str) -> None:
+        super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
