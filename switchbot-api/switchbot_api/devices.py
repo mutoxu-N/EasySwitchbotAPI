@@ -562,3 +562,101 @@ class Humidifier(SwitchbotDevice):
             "commandType": "command",
             "parameter": mode,
         })
+
+
+class IndoorCam(SwitchbotDevice):
+    pass
+
+
+class PanTiltCam(SwitchbotDevice):
+    pass
+
+
+class PanTiltCam2K(PanTiltCam):
+    pass
+
+
+class BlindTilt(SwitchbotDevice):
+    def __init__(
+            self,
+            device_id: str,
+            device_name: str,
+            enable_cloud_service: bool,
+            hub_device_id: str,
+            blind_tilt_device_ids: list,
+            calibrate: bool,
+            group: bool,
+            master: bool,
+            direction: str,
+            slide_position: int) -> None:
+        super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
+        self._blind_tilt_device_ids = tuple(blind_tilt_device_ids)
+        self._calibrate = calibrate
+        self._group = group
+        self._master = master
+        self._direction = direction
+        self._slide_position = slide_position
+
+    @property
+    def blind_tilt_device_ids(
+        self) -> tuple: return self._blind_tilt_device_ids
+
+    @property
+    def calibrate(self) -> bool: return self._calibrate
+    @property
+    def group(self) -> bool: return self._group
+    @property
+    def master(self) -> bool: return self._master
+    @property
+    def direction(self) -> str: return self._direction
+    @property
+    def slide_position(self) -> int: return self._slide_position
+
+    def command_set_position(self, direction: str, position: int) -> str:
+        """
+        * direction
+        up or down
+
+        * position 0~100
+        This MUST be set to a multiple of 2.
+        0 means closed. 100 means open.
+        """
+        if position % 2 == 1:
+            raise ValueError(
+                f"{self.__class__.__name__}.command_set_position(): \"position\" MUST be a multiple of 2.")
+
+        return json.dumps({
+            "command": "setPosition",
+            "commandType": "command",
+            "parameter": f"{direction};{position}",
+        })
+
+    def command_fully_open(self) -> str:
+        """
+        equivalent to `up:100` or `down;100`
+        """
+        return json.dumps({
+            "command": "fullyOpen",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_close_up(self) -> str:
+        """
+        equivalent to `up;0`
+        """
+        return json.dumps({
+            "command": "closeUp",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_close_down(self) -> str:
+        """
+        equivalent to `down;0`
+        """
+        return json.dumps({
+            "command": "closeDown",
+            "commandType": "command",
+            "parameter": "default",
+        })

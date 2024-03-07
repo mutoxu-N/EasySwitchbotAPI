@@ -301,5 +301,39 @@ class SwitchbotAPI:
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
+            elif device["deviceType"] == "Indoor Cam":
+                ret.append(IndoorCam(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Pan/Tilt Cam":
+                ret.append(PanTiltCam(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Pan/Tilt Cam 2K":
+                ret.append(PanTiltCam2K(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Blind Tilt":
+                ret.append(BlindTilt(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                    blind_tilt_device_ids=device["blindTiltDevicesIds"],
+                    calibrate=device["calibrate"],
+                    group=device["group"],
+                    master=device["master"],
+                    direction=device["direction"],
+                    slide_position=device["slidePosition"],
+                ))
 
         return tuple(ret)
