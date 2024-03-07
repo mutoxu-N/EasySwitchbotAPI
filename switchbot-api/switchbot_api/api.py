@@ -120,6 +120,18 @@ class SwitchbotAPI:
                     master=device["master"],
                     openDirection=device["openDirection"]
                 ))
+            elif device["deviceType"] == "Curtain 3":
+                ret.append(Curtain3(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                    curtain_device_ids=device["curtainDevicesIds"],
+                    calibrate=device["calibrate"],
+                    group=device["group"],
+                    master=device["master"],
+                    openDirection=device["openDirection"]
+                ))
             elif device["deviceType"] == "Plug Mini (JP)":
                 ret.append(PlugMiniJP(
                     device_id=device["deviceId"],

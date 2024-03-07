@@ -155,6 +155,12 @@ class Curtain(SwitchbotDevice):
         })
 
 
+class Curtain3(Curtain):
+    def __init__(self, device_id: str, device_name: str, enable_cloud_service: bool, hub_device_id: str, curtain_device_ids: str, calibrate: bool, group: bool, master: bool, openDirection: str) -> None:
+        super().__init__(device_id, device_name, enable_cloud_service, hub_device_id,
+                         curtain_device_ids, calibrate, group, master, openDirection)
+
+
 class PlugMiniJP(SwitchbotDevice):
     def __init__(
             self,
