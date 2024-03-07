@@ -45,6 +45,37 @@ class SwitchbotDevice:
         return self._hub_device_id
 
 
+class Bot(SwitchbotDevice):
+    def __init__(
+            self,
+            device_id: str,
+            device_name: str,
+            enable_cloud_service: bool,
+            hub_device_id: str) -> None:
+        super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
+
+    def command_turn_on(self) -> str:
+        return json.dumps({
+            "command": "turnOn",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_turn_off(self) -> str:
+        return json.dumps({
+            "command": "turnOff",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_press(self) -> str:
+        return json.dumps({
+            "command": "press",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+
 class PlugMiniJP(SwitchbotDevice):
     def __init__(
             self,
@@ -55,11 +86,6 @@ class PlugMiniJP(SwitchbotDevice):
         super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
 
     def command_turn_on(self) -> str:
-        """generate the command to turn on the Plug Mini (JP)
-
-        Returns:
-            dict: command for turning on
-        """
         return json.dumps({
             "command": "turnOn",
             "commandType": "command",
@@ -67,11 +93,6 @@ class PlugMiniJP(SwitchbotDevice):
         })
 
     def command_turn_off(self) -> str:
-        """generate the command to turn off the Plug Mini (JP)
-
-        Returns:
-            dict: command for turning off
-        """
         return json.dumps({
             "command": "turnOff",
             "commandType": "command",
@@ -79,11 +100,6 @@ class PlugMiniJP(SwitchbotDevice):
         })
 
     def command_toggle(self) -> str:
-        """generate the command to toggle the Plug Mini (JP)
-
-        Returns:
-            dict: command for toggling
-        """
         return json.dumps({
             "command": "toggle",
             "commandType": "command",
