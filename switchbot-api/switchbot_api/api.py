@@ -181,12 +181,41 @@ class SwitchbotAPI:
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
+            elif device["deviceType"] == "Lock":
+                ret.append(Lock(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                    group=device["group"],
+                    master=device["master"],
+                    group_name=device["groupName"],
+                    lock_device_ids=device["lockDevicesIds"],
+                ))
+            elif device["deviceType"] == "Keypad":
+                ret.append(Keypad(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Keypad Touch":
+                ret.append(KeypadTouch(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                    lock_device_id=device["lockDeviceId"],
+                    key_list=device["keyList"],
+                ))
             elif device["deviceType"] == "Plug Mini (US)":
                 ret.append(PlugMiniUS(
                     device_id=device["deviceId"],
                     device_name=device["deviceName"],
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
+                    lock_device_id=device["lockDeviceId"],
+                    key_list=device["keyList"],
                 ))
             elif device["deviceType"] == "Plug Mini (JP)":
                 ret.append(PlugMiniJP(
