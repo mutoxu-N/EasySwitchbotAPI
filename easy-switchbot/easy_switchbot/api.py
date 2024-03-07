@@ -6,8 +6,9 @@ import uuid
 import requests
 from typing import Any, List
 
-from switchbot_api.devices import *
-from switchbot_api.infrared_devices import *
+from easy_switchbot.devices import *
+from easy_switchbot.infrared_devices import *
+from easy_switchbot.types import Command
 
 ROOT_URL = "https://api.switch-bot.com"
 
@@ -66,19 +67,18 @@ class SwitchbotAPI:
 
         return res.json()
 
-    def run(self, device_id: str, command: str) -> dict:
+    def run(self, command: Command) -> dict:
         """create POST request to operate your device
 
         Args:
-            device_id (str):the id of your device
-            command (str): the parameter json of operation
+            command (Command): (device_id, the parameter json of operation)
 
         Returns:
             dict: response of POST
         """
         headers = self.__create_headers()
         res = requests.post(
-            f"{ROOT_URL}/v1.1/devices/{device_id}/commands", headers=headers, data=command)
+            f"{ROOT_URL}/v1.1/devices/{command.device_id}/commands", headers=headers, data=command.command)
         return res.json()
 
     def status(self, device: SwitchbotDevice):
