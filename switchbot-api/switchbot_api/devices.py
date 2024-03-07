@@ -284,6 +284,56 @@ class Keypad(SwitchbotDevice):
     @property
     def key_list(self) -> tuple: return self._key_list
 
+    def command_create_key(
+            self,
+            name: str,
+            type: str,
+            password: str,
+            start_time: int,
+            end_time: int) -> str:
+        """
+        * name
+        name must be unique
+
+        * type
+        permanent: permanent passcode
+        timeLimit: temporary passcode
+        disposable: one-time passcode
+        urgent: emergency passcode
+
+        * password
+        6~12-digit passcode in plain text
+
+        * start_time
+        10-digit timestamp
+        passcode becomes valid from
+
+        * end_time
+        10-digit timestamp
+        passcode becomes expired
+
+        """
+        return json.dumps({
+            "command": "createKey",
+            "commandType": "command",
+            "parameter": {
+                "name": name,
+                "type": type,
+                "password": password,
+                "startTime": start_time,
+                "endTime": end_time
+            },
+        })
+
+    def command_delete_key(self, id: str) -> str:
+        """
+        * id
+        the id of the passcode
+        """
+        return json.dumps({
+            "id": id
+        })
+
 
 class KeypadTouch(Keypad):
     pass
