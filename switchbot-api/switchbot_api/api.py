@@ -132,6 +132,48 @@ class SwitchbotAPI:
                     master=device["master"],
                     openDirection=device["openDirection"]
                 ))
+            elif device["deviceType"] == "Hub":
+                ret.append(Hub(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Hub Plus":
+                ret.append(HubPlus(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Hub Mini":
+                ret.append(HubMini(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Hub 2":
+                ret.append(Hub2(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Meter":
+                ret.append(Meter(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
+            elif device["deviceType"] == "Meter Plus":
+                ret.append(MeterPlus(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
             elif device["deviceType"] == "Plug Mini (US)":
                 ret.append(PlugMiniUS(
                     device_id=device["deviceId"],

@@ -1,6 +1,7 @@
 from pprint import pprint
 from switchbot_api.api import SwitchbotAPI
 from switchbot_api.devices import *
+import time
 
 sAPI = SwitchbotAPI(
     token="",
