@@ -175,6 +175,10 @@ class MeterPlus(Meter):
     pass
 
 
+class OutdoorMeter(Meter):
+    pass
+
+
 class PlugMiniUS(SwitchbotDevice):
     def command_turn_on(self) -> str:
         return json.dumps({
