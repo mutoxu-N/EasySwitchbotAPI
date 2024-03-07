@@ -76,6 +76,85 @@ class Bot(SwitchbotDevice):
         })
 
 
+class Curtain(SwitchbotDevice):
+    def __init__(
+            self,
+            device_id: str,
+            device_name: str,
+            enable_cloud_service: bool,
+            hub_device_id: str,
+            curtain_device_ids: str,
+            calibrate: bool,
+            group: bool,
+            master: bool,
+            openDirection: str) -> None:
+        super().__init__(device_id, device_name, enable_cloud_service, hub_device_id)
+        self._curtain_device_ids = curtain_device_ids
+        self._calibrate = calibrate
+        self._group = group
+        self._master = master
+        self._openDirection = openDirection
+
+    @property
+    def curtain_device_ids(self) -> str:
+        return self._curtain_device_ids
+
+    @property
+    def calibrate(self) -> bool:
+        return self._calibrate
+
+    @property
+    def group(self) -> bool:
+        return self._group
+
+    @property
+    def master(self) -> bool:
+        return self._master
+
+    @property
+    def openDirection(self) -> str:
+        return self._openDirection
+
+    def command_set_position(index: int, mode: str, position: int):
+        """set curtain position
+
+        * mode
+        0: Performance Mode
+        1: Silent Mode
+        ff: default mode
+
+        * position
+        0 means open
+        100 means closed
+        """
+        return json.dumps({
+            "command": "setPosition",
+            "commandType": "command",
+            "parameter": f"{index},{mode},{position}",
+        })
+
+    def command_open(self) -> str:
+        return json.dumps({
+            "command": "turnOn",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_close(self) -> str:
+        return json.dumps({
+            "command": "turnOff",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_pause(self) -> str:
+        return json.dumps({
+            "command": "pause",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+
 class PlugMiniJP(SwitchbotDevice):
     def __init__(
             self,
