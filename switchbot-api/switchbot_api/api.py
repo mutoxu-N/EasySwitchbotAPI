@@ -7,6 +7,7 @@ import requests
 from typing import Any, List
 
 from switchbot_api.devices import *
+from switchbot_api.infrared_devices import *
 
 ROOT_URL = "https://api.switch-bot.com"
 
@@ -342,5 +343,23 @@ class SwitchbotAPI:
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
+
+        if not "infraredRemoteList" in json["body"].keys():
+            return tuple(ret)
+
+        devices = json["body"]["infraredRemoteList"]
+        for device in devices:
+            if device["remoteType"] == "Air Conditioner":
+                ret.append(AirConditionerInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    hub_device_id=device["hubDeviceId"]
+                ))
+            else:
+                ret.append(OtherInfrared(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    remote_type=device["remoteType"],
+                    hub_device_id=device["hubDeviceId"]))
 
         return tuple(ret)
