@@ -335,5 +335,12 @@ class SwitchbotAPI:
                     direction=device["direction"],
                     slide_position=device["slidePosition"],
                 ))
+            elif device["deviceType"] == "Battery Circulator Fan":
+                ret.append(BatteryCirculatorFan(
+                    device_id=device["deviceId"],
+                    device_name=device["deviceName"],
+                    enable_cloud_service=device["enableCloudService"],
+                    hub_device_id=device["hubDeviceId"],
+                ))
 
         return tuple(ret)

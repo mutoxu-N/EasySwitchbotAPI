@@ -660,3 +660,57 @@ class BlindTilt(SwitchbotDevice):
             "commandType": "command",
             "parameter": "default",
         })
+
+
+class BatteryCirculatorFan(SwitchbotDevice):
+    def command_turn_on(self) -> str:
+        return json.dumps({
+            "command": "turnOn",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_turn_off(self) -> str:
+        return json.dumps({
+            "command": "turnOff",
+            "commandType": "command",
+            "parameter": "default",
+        })
+
+    def command_set_night_light_mode(self, state: str) -> str:
+        """
+        * state
+        off: turn off
+        1: nightlight bright
+        2: nightlight dim
+        """
+        return json.dumps({
+            "command": "setNightLightMode",
+            "commandType": "command",
+            "parameter": state,
+        })
+
+    def command_set_wind_mode(self, mode: str) -> str:
+        """
+        * mode
+        direct: direct mode
+        natural: natural mode
+        sleep: sleep mode
+        baby: ultra quiet mode
+        """
+        return json.dumps({
+            "command": "setNightLightMode",
+            "commandType": "command",
+            "parameter": mode,
+        })
+
+    def command_set_wind_speed(self, value: int) -> str:
+        """
+        * value
+        1~100
+        """
+        return json.dumps({
+            "command": "setNightLightMode",
+            "commandType": "command",
+            "parameter": value,
+        })
