@@ -1,6 +1,6 @@
 [project]
 name = "easy-switchbot"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="mutoxu=N", email="dev.mutoh@gmail.com" },
 ]
