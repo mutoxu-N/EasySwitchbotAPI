@@ -329,7 +329,7 @@ class SwitchbotAPI:
         json = self.get("devices")
 
         if not self.__is_success(json):
-            raise ConnectionError("response: " + str(res))
+            raise ConnectionError("response: " + str(json))
 
         devices = json["body"]["deviceList"]
 
