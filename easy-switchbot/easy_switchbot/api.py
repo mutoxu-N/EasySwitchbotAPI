@@ -4,10 +4,11 @@ import time
 import base64
 import uuid
 import requests
-from typing import Any, List
+from typing import List
 
 from easy_switchbot.devices import *
 from easy_switchbot.infrared_devices import *
+from easy_switchbot.statuses import *
 from easy_switchbot.types import Command
 
 ROOT_URL = "https://api.switch-bot.com"
@@ -81,12 +82,239 @@ class SwitchbotAPI:
             f"{ROOT_URL}/v1.1/devices/{command.device_id}/commands", headers=headers, data=command.command)
         return res.json()
 
-    def status(self, device: SwitchbotDevice):
+    def status(self, device: SwitchbotDevice) -> Status:
         res = self.get(f"devices/{device.device_id}/status")
-        if not "statusCode" in res.keys() and res["statusCode"] != 100:
-            print(f"Connection failed! (Code: {int(res['statusCode'])})")
+        if not "statusCode" in res.keys() or res["statusCode"] != 100:
+            print(f"Connection failed!")
             return None
-        return res["body"]
+
+        data = res["body"]
+
+        if data["deviceType"] == "Bot":
+            return BotStatus(
+                device_id=data["deviceId"],
+                power=data["power"],
+                battery=data["battery"],
+                version=data["version"],
+                device_mode=data["deviceMode"],
+                hub_device_id=data["hubDeviceId	"],
+            )
+        elif data["deviceType"] == "Curtain":
+            return CurtainStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                calibrate=data["calibrate"],
+                group=data["group"],
+                moving=data["moving"],
+                battery=data["battery"],
+                version=data["version"],
+                slidePosition=data["slidePosition"],
+            )
+        elif data["deviceType"] == "Curtain3":
+            return Curtain3Status(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                calibrate=data["calibrate"],
+                group=data["group"],
+                moving=data["moving"],
+                battery=data["battery"],
+                version=data["version"],
+                slidePosition=data["slidePosition"],
+            )
+        elif data["deviceType"] == "Meter":
+            return MeterStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                temperature=data["temperature"],
+                version=data["version"],
+                battery=data["battery"],
+                humidity=data["humidity"]
+            )
+        elif data["deviceType"] == "MeterPlus":
+            return MeterPlusStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                temperature=data["temperature"],
+                version=data["version"],
+                battery=data["battery"],
+                humidity=data["humidity"]
+            )
+        elif data["deviceType"] == "WoIOSensor":
+            return OutdoorMeterStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                temperature=data["temperature"],
+                version=data["version"],
+                battery=data["battery"],
+                humidity=data["humidity"]
+            )
+        elif data["deviceType"] == "Smart Lock":
+            return LockStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                battery=data["battery"],
+                version=data["version"],
+                lock_state=data["lockState"],
+                door_state=data["doorState"],
+                calibrate=data["calibrate"],
+            )
+        elif data["deviceType"] == "Keypad":
+            return KeypadStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+            )
+        elif data["deviceType"] == "Keypad Touch":
+            return KeypadTouchStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+            )
+        elif data["deviceType"] == "Motion Sensor":
+            return MotionSensorStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                battery=data["battery"],
+                version=data["version"],
+                move_detected=data["moveDetected"],
+                brightness=data["brightness"],
+            )
+        elif data["deviceType"] == "Contact Sensor":
+            return MotionSensorStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                battery=data["battery"],
+                version=data["version"],
+                move_detected=data["moveDetected"],
+                open_state=data["openState"],
+                brightness=data["brightness"],
+            )
+        elif data["deviceType"] == "Ceiling Light":
+            return CeilingLightStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                power=data["power"],
+                version=data["version"],
+                brightness=data["brightness"],
+                color_temperature=data["colorTemperature"],
+            )
+        elif data["deviceType"] == "Ceiling Light Pro":
+            return CeilingLightProStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                power=data["power"],
+                version=data["version"],
+                brightness=data["brightness"],
+                color_temperature=data["colorTemperature"],
+            )
+        elif data["deviceType"] == "Plug Mini (US)":
+            return PlugMiniUSStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                voltage=data["voltage"],
+                version=data["version"],
+                weight=data["weight"],
+                electricity_of_day=data["electricityOfDay"],
+                electric_current=data["electricCurrent"],
+            )
+        elif data["deviceType"] == "Plug Mini (JP)":
+            return PlugMiniJPStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                voltage=data["voltage"],
+                version=data["version"],
+                weight=data["weight"],
+                electricity_of_day=data["electricityOfDay"],
+                electric_current=data["electricCurrent"],
+            )
+        elif data["deviceType"] == "Plug":
+            return PlugStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                power=data["power"],
+                version=data["version"],
+            )
+        elif data["deviceType"] == "Strip Light":
+            return StripLightStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                power=data["power"],
+                version=data["version"],
+                brightness=data["brightness"],
+                color=data["color"]
+            )
+        elif data["deviceType"] == "Color Bulb":
+            return ColorBulbStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                power=data["power"],
+                version=data["version"],
+                brightness=data["brightness"],
+                color=data["color"],
+                color_temperature=data["colorTemperature"]
+            )
+        elif data["deviceType"] == "Robot Vacuum Cleaner S1":
+            return RobotVacuumCleanerS1Status(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                working_status=data["workingStatus"],
+                online_status=data["onlineStatus"],
+                battery=data["battery"]
+            )
+        elif data["deviceType"] == "Robot Vacuum Cleaner S1 Plus":
+            return RobotVacuumCleanerS1PlusStatus(
+                device_id=data["deviceId"],
+                device_name=data["deviceName"],
+                hub_device_id=data["hubDeviceId"],
+                working_status=data["workingStatus"],
+                online_status=data["onlineStatus"],
+                battery=data["battery"]
+            )
+        elif data["deviceType"] == "Humidifier":
+            return HumidifierStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                power=data["power"],
+                humidity=data["humidity"],
+                temperature=data["temperature"],
+                nebulization_efficiency=data["nebulizationEfficiency"],
+                auto=data["auto"],
+                child_lock=data["childLock"],
+                sound=data["sound"],
+                lack_water=data["lackWater"],
+            )
+        elif data["deviceType"] == "Blind Tilt":
+            return BlindTiltStatus(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                version=data["version"],
+                calibrate=data["calibrate"],
+                group=data["group"],
+                moving=data["moving"],
+                direction=data["direction"],
+                slide_position=data["slidePosition"],
+            )
+        elif data["deviceType"] == "Hub 2":
+            return Hub2Status(
+                device_id=data["deviceId"],
+                hub_device_id=data["hubDeviceId"],
+                temperature=data["temperature"],
+                light_level=data["lightLevel"],
+                version=data["version"],
+                humidity=data["humidity"],
+            )
+        elif data["deviceType"] == "Battery Circulator Fan":
+            return BatteryCirculatorFanStatus(
+                device_id=data["deviceId"],
+                device_name=data["deviceName"],
+                mode=data["mode"],
+                version=data["version"],
+                battery=data["battery"],
+                power=data["power"],
+                night_status=data["nightStatus"],
+                oscillation=data["oscillation"],
+                vertical_oscillation=data["verticalOscillation"],
+                charging_status=data["chargingStatus"],
+                fan_speed=data["fanSpeed"],
+            )
 
     @property
     def devices(self) -> List[Device]:
