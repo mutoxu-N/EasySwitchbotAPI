@@ -52,6 +52,12 @@ class SwitchbotAPI:
             "Content-Type": "application/json; charset=utf-8"
         }
 
+    def __is_success(self, res: dict) -> bool:
+        if not "statusCode" in res.keys() or res["statusCode"] != 100:
+            print(f"Connection failed!")
+            return False
+        return True
+
     def get(self, path: str) -> dict:
         """create GET request to API.
             * Access to the \"{ROOT_URL}/v1.1/{path}\" and return a response.
@@ -84,9 +90,9 @@ class SwitchbotAPI:
 
     def status(self, device: SwitchbotDevice) -> Status:
         res = self.get(f"devices/{device.device_id}/status")
-        if not "statusCode" in res.keys() or res["statusCode"] != 100:
-            print(f"Connection failed!")
-            return None
+
+        if not self.__is_success(res):
+            raise ConnectionError("response: " + str(res))
 
         data = res["body"]
 
@@ -322,9 +328,8 @@ class SwitchbotAPI:
 
         json = self.get("devices")
 
-        if not "statusCode" in json.keys() and json["statusCode"] != 100:
-            print(f"Connection failed! (Code: {int(json['statusCode'])})")
-            return
+        if not self.__is_success(json):
+            raise ConnectionError("response: " + str(res))
 
         devices = json["body"]["deviceList"]
 
@@ -349,7 +354,7 @@ class SwitchbotAPI:
                     master=device["master"],
                     openDirection=device["openDirection"]
                 ))
-            elif device["deviceType"] == "Curtain 3":
+            elif device["deviceType"] == "Curtain3":
                 ret.append(Curtain3(
                     device_id=device["deviceId"],
                     device_name=device["deviceName"],
@@ -396,21 +401,21 @@ class SwitchbotAPI:
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
-            elif device["deviceType"] == "Meter Plus":
+            elif device["deviceType"] == "MeterPlus":
                 ret.append(MeterPlus(
                     device_id=device["deviceId"],
                     device_name=device["deviceName"],
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
-            elif device["deviceType"] == "Outdoor Meter":
+            elif device["deviceType"] == "WoIOSensor":
                 ret.append(OutdoorMeter(
                     device_id=device["deviceId"],
                     device_name=device["deviceName"],
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
-            elif device["deviceType"] == "Lock":
+            elif device["deviceType"] == "Smart Lock":
                 ret.append(Lock(
                     device_id=device["deviceId"],
                     device_name=device["deviceName"],
@@ -544,6 +549,7 @@ class SwitchbotAPI:
                     enable_cloud_service=device["enableCloudService"],
                     hub_device_id=device["hubDeviceId"],
                 ))
+            # "Pan/Tilt Cam" in API document.
             elif device["deviceType"] == "Pan/Tilt Cam 2K":
                 ret.append(PanTiltCam2K(
                     device_id=device["deviceId"],
